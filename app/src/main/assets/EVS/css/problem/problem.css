@@ -1,0 +1,79 @@
+.jiaz{position: absolute;top:30%;left: 30%;z-index: 11;width:100%;height:100%;display:none;}
+
+.dhx_list_item{width:autopx;border:1px solid #9c8261;margin-left:10px;margin-right:10px;margin-top:10px;overflow:hidden;}
+
+.public-sentiment{background: #FFFFFF;}
+.content-news{margin-top: 0rem;margin-bottom: 10px;}
+.content-news .nav{display: -webkit-box;height: 40px;line-height: 40px;text-align: center;color: #949599;font-size: 14px;}
+.content-news .nav .on{color: #fcae16;}
+.content-news .nav .opinion{position: relative;}
+.content-news .nav .trends{position: relative;}
+.content-news .nav .policy{position: relative;}
+.content-news .nav .speech{position: relative;}
+.content-news .nav .on .current-line{width: 100%;height: 2px;background: #ffc509;position: absolute;top: 44px;left: 0;}
+
+.wbflex1{-webkit-box-flex: 1;}
+
+.content-news {
+    position: absolute;
+    z-index: 2;
+    margin-top: 2.7rem;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 45px;
+    background:#fff;
+}
+.area{
+    /*border: 1px solid #e0e0e0;*/
+    border-radius: 5px;
+    padding: 10px 2%;
+    font-size: 14px;
+}
+
+.change-border{
+    transition:border linear .2s,box-shadow linear .5s;
+    -moz-transition:border linear .2s,-moz-box-shadow linear .5s;
+    -webkit-transition:border linear .2s,-webkit-box-shadow linear .5s;
+    /*outline:none;*/
+    border: 1px solid red;
+    box-shadow:0px 0px 8px red;
+    -moz-box-shadow:0px 0px 8px red;
+    -webkit-box-shadow:0px 0px 8px red;
+}
+
+p.submit{
+    width: 100%;
+    float: left;
+    text-align: center;
+    margin: 10px 0px;
+}
+
+p.submit input {
+    display: inline-block;
+    width: 47%;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    border-radius: 5px;
+    background: #fff;
+    color:#000;
+}
+
+.prompt{
+    width: 100%;
+    height: 0px;
+    background-color: #000;
+    opacity: 0.5;
+    position: fixed;
+    /*top: 20px;*/
+    text-align: center;
+    line-height: 40px;
+    font-size: 14px;
+    color: #fff;
+    transition: height 0.5s linear;
+}
+
+.prompt.active{
+    height: 40px;
+}

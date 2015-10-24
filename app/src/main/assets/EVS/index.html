@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <script src="../lib/ionic/js/ionic.bundle.min.js"></script>
+    <link href="../lib/ionic/css/ionic.min.css" rel="stylesheet">
+    <script src="../lib/jquery-1.8.0.min.js"></script>
+    <link href="css/learning/learningstyle.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="js/config.js"></script>
+    <script src="js/learning.js"></script>
+    <script src="js/swipe.js"></script>
+    <style>
+	.bar{background:#f0f0f3;}
+	.item-input-wrapper{background:#fff;margin-top:15px !important;}
+	.current-line{top:32px !important;}
+	body{background:#ebebef;}
+    </style>
+</head>
+<body ng-app="learning" ng-controller="LearnCtrl">
+<div class="loading">
+    <i class="icon ion-loading-c"></i> Loading...
+</div>
+<div class="bar bar-header  bar-royal">
+    <i class="button button-icon icon ion-chevron-left" ng-click="backclick()"></i>
+
+    <h1 class="title">文件学习</h1>
+</div>
+<div class="content-news" id="top" >
+
+    <ul class="nav">
+
+        <li id="nav-opinion" class="opinion wbflex1 on" ng-click="tabChange(1)">
+            <a href="" style="text-decoration:none;"><p id="morningdelivery" style="color:#FFA500;margin-top:5px;font-size:20px;">早安快递</p></a>
+            <span class="current-line" id="untreated" style="display: block;margin-top: 19px;"></span>
+        </li>
+        <li id='nav-trends' class="trends wbflex1 on" ng-click="tabChange(2)">
+            <a href="" style="text-decoration:none;"><p id="deliveryfile" style="margin-top:5px;font-size:20px;">快递文件</p></a>
+            <span class="current-line " id="processed" style="display: none;margin-top:19px;"></span>
+        </li>
+        <li id="nav-policy" class="policy wbflex1 on" ng-click="tabChange(3)">
+            <a href="" style="text-decoration:none;"><p id="memorandum" style="font-size:20px;margin-top:5px;">备忘录</p></a>
+            <span class="current-line" id="resolved" style="display: none;margin-top:19px;"></span>
+        </li>
+    </ul>
+</div>
+<div>
+<ion-content style="margin-top:100px;" data-ng-init="onloadData()" >
+    <div class="wrap">
+    <div id="zaoan" style="height:400px;width:800px;" on-swipe-left="zaoSwipeLeft()">
+        <p>没有该业务!!</p>
+    </div>
+      </div>
+    <div class="wrap">
+    <div id="kuaidi" style="margin-bottom:50px;" on-swipe-left="swipeLeft()" on-swipe-right="swipeRight()">
+        <div class="bar item-input-inset" id="searchLike">
+            <label class="item-input-wrapper">
+                <i class="icon ion-ios7-search placeholder-icon"></i>
+                <input maxlength="25" ng-keypress="search($event)" type="search" placeholder="搜索"
+                       ng-focus="searchFocus()"
+                       id="title"/>
+            </label>
+                  <span ng-hide="searchCancleHide" class="smallbtn" style="display: none" id="smallbtn">
+                         <a class="button button-icon icon ion-ios7-close-empty depponback"
+                            ng-click="canceled()">
+                         </a>
+                   </span>
+        </div>
+        <div class="dhx_list_item" ng-repeat="item in items">
+            <div ng-click="fileDetail(item.fileSn)">
+                <div class="row">
+                    <div style="display: none">
+                        <span id="fileSn">{{item.fileSn}}</span>
+                        <span id="pageSize">{{pageIndex}}</span>
+                    </div>
+
+                    <div class="col-90">
+                        <span ng-model="item.title">{{item.title}}</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-50">
+                        <span>{{item.time}}</span>
+                    </div>
+                    <div class="col-50">
+                        <span style="float:right"><img src="img/u49.jpg">{{item.count}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        <ion-infinite-scroll
+                icon="ion-loading-c"
+                ng-if="moreDataCanBeLoaded()"
+                on-infinite="loadMore()"
+                pulling-text="上拉加载"
+                pulling-icon="ion-loading-c"
+                refreshing-text="加载成功"
+                distance="10%">
+        </ion-infinite-scroll>
+    </div>
+
+    <div class="wrap">
+    <div id="beiwanglu" on-swipe-right="beiSwipeRight()" style="text-align:center;padding-top:20px">
+        <img src="evs_app_image/memo_icon.png" width="90%;" height="300px;">
+    </div>
+   </div>
+
+</ion-content>
+
+<div class="tabs tabs-icon-top" >
+    <a class="tab-item taitem"  href="index.html">
+        <i class="icon"><img   src="evs_app_image/file_icon_02.png" width="23%" height="25px" /></i>
+        <p>文件学习</p>
+    </a>
+    <a class="tab-item " href="integral.html">
+        <i class="icon"><img src="evs_app_image/star_icon_02.png" width="30%" height="25px" /></i>
+        <p>星级考核</p>
+    </a>
+    <a class="tab-item" href="warning.html">
+        <i class="icon"><img src="evs_app_image/clock.png" width="30%" height="25px" /></i>
+        <p>预警提醒</p>
+    </a>
+    <a class="tab-item" href="newProblem.html">
+        <i class="icon"><img src="evs_app_image/issue_icon.png" width="30%" height="25px" /></i>
+        <p>问题反馈</p>
+    </a>
+</div>
+</body>
+</html>

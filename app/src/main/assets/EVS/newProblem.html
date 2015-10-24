@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <link href="css/problem/newProblem.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="../lib/ionic/css/ionic.min.css" rel="stylesheet">
+    <script src="../lib/ionic/js/ionic.bundle.js" type="text/javascript"></script>
+    <script src="../lib/jquery-1.8.0.min.js" type="text/javascript"></script>
+    <script src="../lib/angular/angular.min.js" ></script>
+    <script src="../lib/NAZA_lib.js" ></script>
+    <script src="js/directive.js" ></script>
+    <script src="js/newProblem.js" ></script>
+    <script src="js/config.js" ></script>
+</head>
+<body ng-app="problem" ng-controller="newProblem_start" class="hisBody">
+    <div class="bar bar-header bar-royal">
+        <i class="button button-icon icon ion-chevron-left" ng-click="back()"></i>
+        <h1 class="title">问题反馈</h1>
+        <i class="button button-icon icon ion-navicon-round" ng-click="goBack(-1, 'problemList.html')"></i>
+    </div>
+    <div>
+        <div class="prompt" ng-class="{'active':errorCtrl}"></div>
+        <div class="success">
+            <img src="img/success.png"/>
+            <span>提交成功</span>
+        </div>
+
+        <ion-content>
+            <article class="container">
+                <div class="sel selTop" ng-click="choseQues()"  ng-class="{'selBg':questionCtrl}" ng-bind="questiondetail"></div>
+                <textarea class="area" ng-focus="focus()" ng-model="page.description" name="" id="" cols="30" rows="7"
+                          ng-blur="blur()" placeholder="请描述您遇到的问题（限制15-300字）"></textarea>
+                <p class="accessory">相关附件：</p>
+                <div class="annex" id="camera">
+                    <span id="chose_sel"><img class="img" src="img/sel.png" width="50px" height = "50px" /></span>
+                </div>
+                <p class="submit"><input type="submit"  ng-click="submitForm()"  value="提交"/></p>
+
+                <input type="button"  ng-click="myFun()" class="sub" style="display: none;"/>
+
+            </article>
+            <article class="filebg" ng-click="sildDown()"></article>
+
+
+            <article class="bigImg">
+                <div class="hisHeader fixHeader">
+                    <img src="img/back-white.png" onclick="comeBack()">
+                    <img src="img/trash.png" class="trash" onclick="deletImg()"/>
+                </div>
+                <img class="original-img" src=""/>
+            </article>
+        </ion-content>
+    <article class="ques-list"  ng-class="{'active':questionCtrl}">
+        <ul>
+            <li ng-repeat="item in page.question4" ng-click="choseQues(item.faultName,item.faultId)"><span ng-bind="item.faultName"></span></li>
+        </ul>
+    </article>
+    </div>
+    <script>
+        //点击拍照，y代表img标签的class_y，该值提供给删除图片时使用
+        $(".annex").on("click",".img",function(){
+            if($(this).attr("src") == "img/sel.png"){
+                selectImage();
+                /*openCamera();*/
+            }else{
+                $(".container").hide();
+                $(".bigImg").css({"height":$(window).height()+"px"});
+                $(".bigImg").show();
+                var imgSrc = $(this).attr("src");
+                $(".original-img").attr("src",imgSrc);
+                var y = $(this).attr("class").substr($(this).attr("class").lastIndexOf("_")+1);
+                localStorage.setItem("imgSrc",imgSrc);
+                localStorage.setItem("y",y);
+            }
+        });
+
+        function comeBack(){
+            $(".bigImg").hide();
+            localStorage.removeItem("y");
+            $(".container").show();
+        };
+
+        window.onload = function(){
+            $(".filebg").css({"height":$(document).height() +"px"});
+        }
+    </script>
+    <div class="tabList" style="display: block">
+        <div class="tabs tabs-icon-top">
+            <a class="tab-item"  href="index.html">
+                <i class="icon"><img   src="evs_app_image/file_icon.png" width="23%" height="25px" /></i>
+                <p>文件学习</p>
+            </a>
+            <a class="tab-item" href="integral.html">
+                <i class="icon"><img src="evs_app_image/star_icon_02.png" width="30%" height="25px" /></i>
+                <p>星级考核</p>
+            </a>
+            <a class="tab-item" href="warning.html">
+                <i class="icon"><img src="evs_app_image/clock.png" width="30%" height="25px" /></i>
+                <p>预警提醒</p>
+            </a>
+            <a class="tab-item taitem" href="newProblem.html">
+                <i class="icon"><img src="evs_app_image/issue_icon_02.png" width="30%" height="25px" /></i>
+                <p>问题反馈</p>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

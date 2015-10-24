@@ -1,0 +1,17 @@
+.bar.bar-royal{background:#363c62 !important;}
+.barhea{height:73px !important;}
+.backi{margin-top:20px !important;}
+.tith1{margin-top:20px !important;}
+.tabs{height: 49px;}
+.tab-item .icon{height: 28px !important;}
+.tab-item{padding-top:4px;}
+.tab-item p{padding-top:1px;font-size: 10px !important;}
+ body{background: #e6e6e6}
+.selectable{
+    -webkit-user-select: auto !important;
+    -khtml-user-select: auto !important;
+    -moz-user-select: auto !important;
+    -ms-user-select: auto !important;
+    -o-user-select: auto !important;
+    user-select: auto !important;
+}

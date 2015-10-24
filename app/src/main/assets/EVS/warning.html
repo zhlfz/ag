@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <link href="../lib/ionic/css/ionic.min.css" rel="stylesheet">
+    <link href="css/learning/learningstyle.css" rel="stylesheet">
+    <script src="../lib/ionic/js/ionic.bundle.min.js"></script>
+    <link href="../lib/ionic/css/ionic.min.css" rel="stylesheet">
+    <link href="css/warning/warning.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="../lib/jquery-1.8.0.min.js"></script>
+    <script src="js/warning.js"></script>
+    <script src="js/config.js"></script>
+
+</head>
+<body ng-app="warning" ng-controller="WarningCtrl">
+<div class="loading">
+    <i class="icon ion-loading-c"></i> Loading...
+</div>
+
+<div class="bar bar-header  bar-royal">
+    <i class="button button-icon icon ion-chevron-left" ng-click="backclick()"></i>
+    <h1 class="title">预警提醒</h1>
+</div>
+<div>
+    <div  id="message" style="text-align: center;margin-top: 100px;">{{message.content}}</div>
+    <ion-content class="padding padd cont_align" style="margin-bottom:50px;">
+        <div  class="contents">
+                <div class="dhx_list_item" ng-repeat="item in items">
+            <div class="row">
+                    <span ng-model="date" id="date">{{item.date}}</span>
+                <div style="width:100px;margin-left:10px;">
+                    <span  data-ng-model="count" class="count" style="background:url('evs_app_image/mark_bg.png')no-repeat left 0px;">{{item.count}}</span>
+                </div>
+            </div>
+         <div class="content dhx" id="a" ng-repeat="con in item.contents" style="margin-top: 5px;">
+            <div calss="content dhx" id="content" style="width: 100%;">
+               <span ng-model="contents" style="margin-left:20px;">{{con.content}}</span>
+            </div>
+         </div>
+        </div>
+      <ion-infinite-scroll
+                icon="ion-loading-c"
+                ng-if="moreDataCanBeLoaded()"
+                on-infinite="loadMore()"
+                pulling-icon="ion-loading-c"
+                distance="10%">
+        </ion-infinite-scroll>
+        </div>
+    </ion-content>
+
+</div>
+<div class="tabs tabs-icon-top">
+    <a class="tab-item " href="index.html">
+        <i class="icon"><img src="evs_app_image/file_icon.png" width="23%" height="25px" /></i>
+        <p>文件学习</p>
+    </a>
+    <a class="tab-item " href="integral.html">
+        <i class="icon"><img src="evs_app_image/star_icon_02.png" width="30%" height="25px" /></i>
+        <p>星级考核</p>
+    </a>
+    <a class="tab-item taitem" href="warning.html">
+        <i class="icon"><img src="evs_app_image/clock_current.png" width="30%" height="25px" /></i>
+        <p>预警提醒</p>
+    </a>
+    <a class="tab-item" href="newProblem.html">
+        <i class="icon"><img src="evs_app_image/issue_icon.png" width="30%" height="25px" /></i>
+        <p>问题反馈</p>
+    </a>
+</div>
+</body>
+</html>

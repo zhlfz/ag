@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html" style="background-color: #f0f0f3;">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <script src="../lib/ionic/js/ionic.bundle.min.js"></script>
+    <script src="../lib/angular/angular.js"></script>
+    <link href="../lib/ionic/css/ionic.min.css" rel="stylesheet">
+    <link href="../lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/problem/problem.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="../lib/jquery-1.8.0.min.js"></script>
+    <script src="js/problemDetailed.js"></script>
+    <script src="js/config.js"></script>
+</head>
+<body ng-app="detail" ng-controller="problemDetailed">
+
+    <div class="bar bar-header  bar-royal">
+        <i class="button button-icon icon ion-chevron-left" ng-click='goBack(tabNo, "problemList.html")'></i>
+        <h1 class="title">问题详情</h1>
+    </div>
+
+    <ion-content style="margin-top: 45px;" data-ng-init="onloadData()">
+        <div class="prompt" ng-class="{'active':errorCtrl}"></div>
+        <div class="jiaz">
+            <p><img src=" img/success.png"></p>
+            <span>提交成功</span>
+        </div>
+        <div class="detailData">
+            <div style="margin-left: 15px;margin-right: 15px;margin-top: 5px;" ng-if="detailed.no != null || detailed.no != undefined">
+                <div class="row">
+                    <div class="col-100" style="color: #faaf19;font-size: 25px;">
+                        NO：{{detailed.no}}
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 5px;">
+                    <div class="col-100" style="color: #515258;font-size: 18px;">
+                        问题类型：
+                        <span ng-switch on="detailed.questionType">
+                            <span ng-switch-when="DELIVERY">收派类</span>
+                            <span ng-switch-when="QUALITY">品质质量类</span>
+                            <span ng-switch-when="OUTGOING">外发及事物支持类</span>
+                            <span ng-switch-when="NET_LINE">网点线路类</span>
+                            <span ng-switch-when="MARKET">市场类</span>
+                            <span ng-switch-when="OPERATION">运营类</span>
+                            <span ng-switch-when="CUSTOMER">客户需求类</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-repeat="qa in detailed.qas">
+               <div class="dhx_list_item">
+                    <div class="row" >
+                        <div class="col-50">
+
+                        </div>
+                        <div class="col-50" style="text-align: right;color: #515258;">
+                            {{qa.createTime}}
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 15px;">
+                        <div class="col-25">
+                            问题描述：
+                        </div>
+                        <div class="col-75">
+                            {{qa.question}}
+                        </div>
+                    </div>
+               </div>
+               <div ng-if="qa.solver != undefined">
+                    <div ng-if="qa.solver != ''">
+                        <!--<div style="margin-left: 15px;margin-right: 15px;margin-top: 15px;">-->
+                        <div class="dhx_list_item" style="background-color: #e6e6e6">
+                            <div class="row">
+                                <div class="col-75">
+                                    解答人：{{qa.solver}}({{qa.solverMobile}})
+                                </div>
+                                <!--<div class="col-50">
+                                    {{qa.solver}}({{qa.solverMobile}})
+                                </div>-->
+                                <div class="col-25" style="text-align: right;color: #515258;">
+                                    {{qa.solverTime}}
+                                </div>
+                            </div>
+
+                            <div class="row" style="margin-top: 15px;">
+                                <div class="col-25">
+                                    问题解答：
+                                </div>
+                                <div class="col-75">
+                                    {{qa.answer}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+               </div>
+            </div>
+            <div ng-if="detailed.type == 'PROCESSED'">
+                <div class="row" >
+                    <p class="submit"><input type="submit" id="untreated" ng-click="untreated()" value="未解决" /></p>
+                    <p class="submit"><input type="submit" id="resolved" ng-click="resolved()" value="已解决" /></p>
+                </div>
+            </div>
+            <div  id="question" style="display: none">
+                <div style="margin-left: 15px;margin-right: 15px;">
+                    <textarea class="sel area" placeholder="若解答内容未能解决您的问题，请将您的疑惑描述清楚再次提交（15字以上300字以内）"
+                              id="description" ng-focus="focus()" id="contentText" cols="30" rows="10" style="background-color: #d9d9d9" maxlength="300"></textarea>
+                </div>
+                <p class="submit"><input type="submit" id="submitForm" ng-click="submitForm()"  value="提交"/></p>
+            </div>
+        </div>
+    </ion-content>
+
+</body>
+</html>

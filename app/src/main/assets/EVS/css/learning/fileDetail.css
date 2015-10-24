@@ -1,0 +1,34 @@
+﻿.title {
+    margin: -15px 10px
+}
+
+#content {
+    top: 10%;
+}
+
+.padding {
+    top: 5%;
+}
+
+.loading {
+    position: absolute;
+    top: 50%;
+    left: 45%;
+    margin-top: -12px;
+    margin-left: -12px;
+    background-size: 24px auto;
+}
+
+#xuan {
+    position: relative;
+    margin-left: 270px;
+    margin-bottom:150px;
+    height: 30px;
+    width: 50px;
+}
+.list .my-item.item {
+    left: 0;
+    right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+}

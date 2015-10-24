@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>星级考核</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <script src="../lib/ionic/js/ionic.bundle.min.js"></script>
+    <link href="../lib/ionic/css/ionic.min.css" rel="stylesheet">
+    <link href="css/integral/common.css" rel="stylesheet">
+    <link href="css/integral/styles.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="../lib/jquery-1.8.0.min.js"></script>
+    <script src="js/intedate/iscroll.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/InteCtrls.js"></script>
+    <style>
+        *{margin: 0px;padding: 0px;}
+        #head{height: 125px;display: none;background:url(evs_app_image/star_bg.png) no-repeat left top;position:relative;color:#fff;         background-size:cover;}
+        .cont{margin-top:10px;border:1px solid #c3c3c3;border-radius:3px;padding:3% 4% 3% 4%;background: #ffffff}
+        .cont1 ul li{float: left; /*padding: 0% 2% 2% 1%;*/line-height:22px;}
+        .cont1{margin-top: 10px;overflow: hidden;}
+        .cont2 ul li{float: left; /*padding: 0% 5% 2% 1%;*/line-height:22px;}
+        .cont2{overflow: hidden;}
+        #content{display: none;padding:0 10px;}
+        .bar-header{display: none;}
+        .contbg{background: #e2f0f8;}
+        .jf{color: #85E089}
+        .star_cont{color:#808285;}
+        .star_cont_nt{padding-left:5%;color:#000;}
+        .padd{bottom: 9%}
+        .yes_day{width:18.5%;}
+        .monty{width:18.5%;}
+        .integral{width:14%;}
+        .target_value{width:18.5%;}
+        .target_integral{width:22%;}
+        .cont ul li{text-align:center;}
+        .load{position: absolute;display:none;z-index:99999;top: 50%;left: 45%;margin-top: -12px;margin-left: 17px;background-size: 24px auto;}
+    </style>
+</head>
+<body ng-app="InteCtrls" ng-controller="InteCtrl">
+<div id="datePlugin"></div>
+<div class="loading">
+    <i class="icon ion-loading-c"></i> Loading...
+</div>
+<div class="load">
+    <i class="icon ion-loading-c"></i> Loading...
+</div>
+
+<div class="bar bar-header bar-royal">
+    <i class="button button-icon icon ion-chevron-left" ng-click="backclick()"></i>
+    <h1 class="title">星级考核</h1>
+    <i class="button button-icon icon ion-clock" ng-click="dateclick()"></i>
+</div>
+<input type="hidden" id="beginTime" class="kbtn" />
+<ion-content class="padd">
+<div id="head">
+    <div id="u254" class="text">
+        <p style="font-size:13px;">
+            <span style="font-size:16px;">我的星级考核积分</span>
+        </p>
+        <p style="font-size:56px;margin-top:20px;" class="grade">
+            <span style="font-size:50px;">{{items.totalJifen}}</span>
+            <span style="font-size:13px;">&nbsp;</span>
+        </p>
+    </div>
+    <div id="u256" class="text">
+        <p style="margin-top:12px;"><span>V</span><span>S</span></p>
+    </div>
+    <div id="u252" class="text">
+        <p style="font-size:16px;"><span>目标</span><span>积分</span></p><p style="font-size:56px;margin-top:20px;" class="grade"><span style="font-size:40px;">{{items.totalGoalJifen}}</span></p>
+    </div>
+    <div id="u248" class="text">
+        <p style="font-size:13px;"><span>截止{{items.date}},您当前的大区排名{{items.paiming}}/{{items.totalNum}}</span></p>
+    </div>
+</div>
+<div id="content">
+<div class="cont contbg">
+    <div class="con1 star_cont">
+        <p style="font-size:14px;">
+            <span style="font-family:'微软雅黑 Bold', '微软雅黑';font-weight:700;font-size:14px;">累计开单金额</span>
+            <span style="font-family:'微软雅黑 Regular', '微软雅黑';font-weight:400;font-size:12px;">（元）</span>
+            <span style="font-family:'微软雅黑 Regular', '微软雅黑';font-weight:400;font-size:13px;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; </span>
+        </p>
+    </div>
+    <div class="cont1 star_cont_nt">
+        <ul>
+            <li class="yes_day"><span>昨日值</span></li>
+            <li class="monty"><span>月累计</span></li>
+            <li class="integral"><span>积分</span></li>
+            <li class="target_value"><span>目标值</span></li>
+            <li class="target_integral"><span>目标积分</span></li>
+        </ul>
+    </div>
+    <div class="cont2 star_cont_nt">
+        <ul>
+            <li class="yes_day"><span>{{items.totalBillingAmt.yesterday}}</span></li>
+            <li class="monty"><span>{{items.totalBillingAmt.month}}</span></li>
+            <li class="integral">
+                <span class="jf" ng-if="items.totalBillingAmt.jifen >= 0">{{items.totalBillingAmt.jifen}}</span>
+                <span style="color: red;" ng-if="items.totalBillingAmt.jifen < 0">{{items.totalBillingAmt.jifen}}</span>
+            </li>
+            <li class="target_value"><span>{{items.totalBillingAmt.goalValue}}</span></li>
+            <li class="target_integral"><span>{{items.totalBillingAmt.goalJifen}}</span></li>
+        </ul>
+    </div>
+</div>
+<div class="cont">
+    <div class="con1 star_cont">
+        <p style="font-size:14px;">
+            <span style="font-family:'微软雅黑 Bold', '微软雅黑';font-weight:700;font-size:14px;">日均派件票数</span>
+            <span style="font-family:'微软雅黑 Regular', '微软雅黑';font-weight:400;font-size:12px;">（票/天）</span>
+            <span style="font-family:'微软雅黑 Regular', '微软雅黑';font-weight:400;font-size:13px;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; </span>
+        </p>
+    </div>
+    <div class="cont1 star_cont_nt">
+        <ul>
+            <li class="yes_day"><span>昨日值</span></li>
+            <li class="monty"><span>月累计</span></li>
+            <li class="integral"><span>积分</span></li>
+            <li class="target_value"><span>目标值</span></li>
+            <li class="target_integral"><span>目标积分</span></li>
+        </ul>
+    </div>
+    <div class="cont2 star_cont_nt">
+        <ul>
+            <li class="yes_day"><span>{{items.dailyDeliveryNum.yesterday}}</span></li>
+            <li class="monty"><span>{{items.dailyDeliveryNum.month}}</span></li>
+            <li class="integral">
+                <span class="jf" ng-if="items.dailyDeliveryNum.jifen >= 0">{{items.dailyDeliveryNum.jifen}}</span>
+                <span style="color: red;" ng-if="items.dailyDeliveryNum.jifen < 0">{{items.dailyDeliveryNum.jifen}}</span>
+            </li>
+            <li class="target_value"><span>{{items.dailyDeliveryNum.goalValue}}</span></li>
+            <li class="target_integral"><span>{{items.dailyDeliveryNum.goalJifen}}</span></li>
+        </ul>
+    </div>
+</div>
+<div class="cont">
+    <div class="con1 star_cont">
+        <p style="font-size:14px;">
+            <span style="font-family:'微软雅黑 Bold', '微软雅黑';font-weight:700;font-size:14px;">催收个数</span>
+            <span style="font-family:'微软雅黑 Regular', '微软雅黑';font-weight:400;font-size:12px;">（个）</span>
+            <span style="font-family:'微软雅黑 Regular', '微软雅黑';font-weight:400;font-size:13px;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; </span>
+        </p>
+    </div>
+    <div class="cont1 star_cont_nt">
+        <ul>
+            <li class="yes_day"><span>昨日值</span></li>
+            <li class="monty"><span>月累计</span></li>
+            <li class="integral"><span>积分</span></li>
+            <li class="target_value"><span>目标值</span></li>
+            <li class="target_integral"><span>目标积分</span></li>
+        </ul>
+    </div>
+    <div class="cont2 star_cont_nt">
+        <ul>
+            <li class="yes_day"><span>{{items.reminderCollectedNum.yesterday}}</span></li>
+            <li class="monty"><span>{{items.reminderCollectedNum.month}}</span></li>
+            <li class="integral">
+                <span class="jf" ng-if="items.reminderCollectedNum.jifen >= 0">{{items.reminderCollectedNum.jifen}}</span>
+                <span style="color: red;" ng-if="items.reminderCollectedNum.jifen < 0">{{items.reminderCollectedNum.jifen}}</span>
+            </li>
+            <li class="target_value"><span>{{items.reminderCollectedNum.goalValue}}</span></li>
+            <li class="target_integral"><span>{{items.reminderCollectedNum.goalJifen}}</span></li>
+        </ul>
+    </div>
+
+</div>
+<div class="cont">
+    <div class="con1 star_cont">
+        <p style="font-size:14px;">
+            <span style="font-family:'微软雅黑 Bold', '微软雅黑';font-weight:700;font-size:14px;">催派个数</span>
+            <span style="font-family:'微软雅黑 Regular', '微软雅黑';font-weight:400;font-size:12px;">（个）</span>
+            <span style="font-family:'微软雅黑 Regular', '微软雅黑';font-weight:400;font-size:13px;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; </span>
+        </p>
+    </div>
+    <div class="cont1 star_cont_nt">
+        <ul>
+            <li class="yes_day"><span>昨日值</span></li>
+            <li class="monty"><span>月累计</span></li>
+            <li class="integral"><span>积分</span></li>
+            <li class="target_value"><span>目标值</span></li>
+            <li class="target_integral"><span>目标积分</span></li>
+        </ul>
+    </div>
+    <div class="cont2 star_cont_nt">
+        <ul>
+            <li class="yes_day"><span>{{items.reminderDeliveryNum.yesterday}}</span></li>
+            <li class="monty"><span>{{items.reminderDeliveryNum.month}}</span></li>
+            <li class="integral">
+                <span class="jf" ng-if="items.reminderDeliveryNum.jifen >= 0">{{items.reminderDeliveryNum.jifen}}</span>
+                <span style="color: red;" ng-if="items.reminderDeliveryNum.jifen < 0">{{items.reminderDeliveryNum.jifen}}</span>
+            </li>
+            <li class="target_value"><span>{{items.reminderDeliveryNum.goalValue}}</span></li>
+            <li class="target_integral"><span>{{items.reminderDeliveryNum.goalJifen}}</span></li>
+        </ul>
+    </div>
+
+</div>
+<div class="cont">
+    <div class="con1 star_cont">
+        <p style="font-size:14px;">
+            <span style="font-family:'微软雅黑 Bold', '微软雅黑';font-weight:700;font-size:14px;">投诉个数</span>
+            <span style="font-family:'微软雅黑 Regular', '微软雅黑';font-weight:400;font-size:12px;">（个）</span>
+            <span style="font-family:'微软雅黑 Regular', '微软雅黑';font-weight:400;font-size:13px;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; </span>
+        </p>
+    </div>
+    <div class="cont1 star_cont_nt">
+        <ul>
+            <li class="yes_day"><span>昨日值</span></li>
+            <li class="monty"><span>月累计</span></li>
+            <li class="integral"><span>积分</span></li>
+            <li class="target_value"><span>目标值</span></li>
+            <li class="target_integral"><span>目标积分</span></li>
+        </ul>
+    </div>
+    <div class="cont2 star_cont_nt">
+        <ul>
+            <li class="yes_day"><span>{{items.complaintedNum.yesterday}}</span></li>
+            <li class="monty"><span>{{items.complaintedNum.month}}</span></li>
+            <li class="integral">
+                <span class="jf" ng-if="items.complaintedNum.jifen >= 0">{{items.complaintedNum.jifen}}</span>
+                <span style="color: red;" ng-if="items.complaintedNum.jifen < 0">{{items.complaintedNum.jifen}}</span>
+            </li>
+            <li class="target_value"><span>{{items.complaintedNum.goalValue}}</span></li>
+            <li class="target_integral"><span>{{items.complaintedNum.goalJifen}}</span></li>
+        </ul>
+    </div>
+
+</div>
+<div class="cont">
+    <div class="con1 star_cont">
+        <p style="font-size:14px;">
+            <span style="font-family:'微软雅黑 Bold', '微软雅黑';font-weight:700;font-size:14px;">差错个数</span>
+            <span style="font-family:'微软雅黑 Regular', '微软雅黑';font-weight:400;font-size:12px;">（个）</span>
+            <span style="font-family:'微软雅黑 Regular', '微软雅黑';font-weight:400;font-size:13px;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; </span>
+        </p>
+    </div>
+    <div class="cont1 star_cont_nt">
+        <ul>
+            <li class="yes_day"><span>昨日值</span></li>
+            <li class="monty"><span>月累计</span></li>
+            <li class="integral"><span>积分</span></li>
+            <li class="target_value"><span>目标值</span></li>
+            <li class="target_integral"><span>目标积分</span></li>
+        </ul>
+    </div>
+    <div class="cont2 star_cont_nt">
+        <ul>
+            <li class="yes_day"><span>{{items.errorNum.yesterday}}</span></li>
+            <li class="monty"><span>{{items.errorNum.month}}</span></li>
+            <li class="integral">
+                <span class="jf" ng-if="items.errorNum.jifen >= 0">{{items.errorNum.jifen}}</span>
+                <span style="color: red;" ng-if="items.errorNum.jifen < 0">{{items.errorNum.jifen}}</span>
+            </li>
+            <li class="target_value"><span>{{items.errorNum.goalValue}}</span></li>
+            <li class="target_integral"><span>{{items.errorNum.goalJifen}}</span></li>
+        </ul>
+    </div>
+
+</div>
+<div class="cont">
+    <div class="con1 star_cont">
+        <p style="font-size:14px;">
+            <span style="font-family:'微软雅黑 Bold', '微软雅黑';font-weight:700;font-size:14px;">丢货票数</span>
+            <span style="font-family:'微软雅黑 Regular', '微软雅黑';font-weight:400;font-size:12px;">（票）</span>
+            <span style="font-family:'微软雅黑 Regular', '微软雅黑';font-weight:400;font-size:13px;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; </span>
+        </p>
+    </div>
+    <div class="cont1 star_cont_nt">
+        <ul>
+            <li class="yes_day"><span>昨日值</span></li>
+            <li class="monty"><span>月累计</span></li>
+            <li class="integral"><span>积分</span></li>
+            <li class="target_value"><span>目标值</span></li>
+            <li class="target_integral"><span>目标积分</span></li>
+        </ul>
+    </div>
+    <div class="cont2 star_cont_nt">
+        <ul>
+            <li class="yes_day"><span>{{items.lostedCargoNum.yesterday}}</span></li>
+            <li class="monty"><span>{{items.lostedCargoNum.month}}</span></li>
+            <li class="integral">
+                <span class="jf" ng-if="items.lostedCargoNum.jifen >= 0">{{items.lostedCargoNum.jifen}}</span>
+                <span style="color: red;" ng-if="items.lostedCargoNum.jifen < 0">{{items.lostedCargoNum.jifen}}</span>
+            </li>
+            <li class="target_value"><span>{{items.lostedCargoNum.goalValue}}</span></li>
+            <li class="target_integral"><span>{{items.lostedCargoNum.goalJifen}}</span></li>
+        </ul>
+    </div>
+
+</div>
+<div class="cont">
+    <div class="con1 star_cont">
+        <p style="font-size:14px;">
+            <span style="font-family:'微软雅黑 Bold', '微软雅黑';font-weight:700;font-size:14px;">异常签收票数</span>
+            <span style="font-family:'微软雅黑 Regular', '微软雅黑';font-weight:400;font-size:12px;">（票）</span>
+            <span style="font-family:'微软雅黑 Regular', '微软雅黑';font-weight:400;font-size:13px;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; </span>
+        </p>
+    </div>
+    <div class="cont1 star_cont_nt">
+        <ul>
+            <li class="yes_day"><span>昨日值</span></li>
+            <li class="monty"><span>月累计</span></li>
+            <li class="integral"><span>积分</span></li>
+            <li class="target_value"><span>目标值</span></li>
+            <li class="target_integral"><span>目标积分</span></li>
+        </ul>
+    </div>
+    <div class="cont2 star_cont_nt">
+        <ul>
+            <li class="yes_day"><span>{{items.abnAckNum.yesterday}}</span></li>
+            <li class="monty"><span>{{items.abnAckNum.month}}</span></li>
+            <li class="integral">
+                <span class="jf" ng-if="items.abnAckNum.jifen >= 0">{{items.abnAckNum.jifen}}</span>
+                <span style="color: red;" ng-if="items.abnAckNum.jifen < 0">{{items.abnAckNum.jifen}}</span>
+            </li>
+            <li class="target_value"><span>{{items.abnAckNum.goalValue}}</span></li>
+            <li class="target_integral"><span>{{items.abnAckNum.goalJifen}}</span></li>
+        </ul>
+    </div>
+
+</div>
+<div class="cont">
+    <div class="con1 star_cont">
+        <p style="font-size:14px;">
+            <span style="font-family:'微软雅黑 Bold', '微软雅黑';font-weight:700;font-size:14px;">表扬次数</span>
+            <span style="font-family:'微软雅黑 Regular', '微软雅黑';font-weight:400;font-size:12px;">（次）</span>
+            <span style="font-family:'微软雅黑 Regular', '微软雅黑';font-weight:400;font-size:13px;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; </span>
+        </p>
+    </div>
+    <div class="cont1 star_cont_nt">
+        <ul>
+            <li class="yes_day"><span>昨日值</span></li>
+            <li class="monty"><span>月累计</span></li>
+            <li class="integral"><span>积分</span></li>
+            <li class="target_value"><span>目标值</span></li>
+            <li class="target_integral"><span>目标积分</span></li>
+        </ul>
+    </div>
+    <div class="cont2 star_cont_nt">
+        <ul>
+            <li class="yes_day"><span>{{items.praiseNum.yesterday}}</span></li>
+            <li class="monty"><span>{{items.praiseNum.month}}</span></li>
+            <li class="integral">
+                <span class="jf" ng-if="items.praiseNum.jifen >= 0">{{items.praiseNum.jifen}}</span>
+                <span style="color: red;" ng-if="items.praiseNum.jifen < 0">{{items.praiseNum.jifen}}</span>
+            </li>
+            <li class="target_value"><span>{{items.praiseNum.goalValue}}</span></li>
+            <li class="target_integral"><span>{{items.praiseNum.goalJifen}}</span></li>
+        </ul>
+    </div>
+
+</div>
+<div class="cont">
+    <div class="con1 star_cont">
+        <p style="font-size:14px;">
+            <span style="font-family:'微软雅黑 Bold', '微软雅黑';font-weight:700;font-size:14px;">违禁品、拒收品差错个数</span>
+            <span style="font-family:'微软雅黑 Regular', '微软雅黑';font-weight:400;font-size:12px;">（个）</span>
+            <span style="font-family:'微软雅黑 Regular', '微软雅黑';font-weight:400;font-size:13px;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; </span>
+        </p>
+    </div>
+    <div class="cont1 star_cont_nt">
+        <ul>
+            <li class="yes_day"><span>昨日值</span></li>
+            <li class="monty"><span>月累计</span></li>
+            <li class="integral"><span>积分</span></li>
+            <li class="target_value"><span>目标值</span></li>
+            <li class="target_integral"><span>目标积分</span></li>
+        </ul>
+    </div>
+    <div class="cont2 star_cont_nt">
+        <ul>
+            <li class="yes_day"><span>{{items.weijinjushouErrNum.yesterday}}</span></li>
+            <li class="monty"><span>{{items.weijinjushouErrNum.month}}</span></li>
+            <li class="integral">
+                <span class="jf" ng-if="items.weijinjushouErrNum.jifen >= 0">{{items.weijinjushouErrNum.jifen}}</span>
+                <span style="color: red;" ng-if="items.weijinjushouErrNum.jifen < 0">{{items.weijinjushouErrNum.jifen}}</span>
+            </li>
+            <li class="target_value"><span>{{items.weijinjushouErrNum.goalValue}}</span></li>
+            <li class="target_integral"><span>{{items.weijinjushouErrNum.goalJifen}}</span></li>
+        </ul>
+    </div>
+</div>
+<div class="cont">
+    <div class="con1 star_cont">
+        <p style="font-size:14px;">
+            <span style="font-family:'微软雅黑 Bold', '微软雅黑';font-weight:700;font-size:14px;">有责交通事故</span>
+            <span style="font-family:'微软雅黑 Regular', '微软雅黑';font-weight:400;font-size:12px;">（次）</span>
+            <span style="font-family:'微软雅黑 Regular', '微软雅黑';font-weight:400;font-size:13px;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; </span>
+        </p>
+    </div>
+    <div class="cont1 star_cont_nt">
+        <ul>
+            <li class="yes_day"><span>昨日值</span></li>
+            <li class="monty"><span>月累计</span></li>
+            <li class="integral"><span>积分</span></li>
+            <li class="target_value"><span>目标值</span></li>
+            <li class="target_integral"><span>目标积分</span></li>
+        </ul>
+    </div>
+    <div class="cont2 star_cont_nt">
+        <ul>
+            <li class="yes_day"><span>{{items.accidentNum.yesterday}}</span></li>
+            <li class="monty"><span>{{items.accidentNum.month}}</span></li>
+            <li class="integral">
+                <span class="jf" ng-if="items.accidentNum.jifen >= 0">{{items.accidentNum.jifen}}</span>
+                <span style="color: red;" ng-if="items.accidentNum.jifen < 0">{{items.accidentNum.jifen}}</span>
+            </li>
+            <li class="target_value"><span>{{items.accidentNum.goalValue}}</span></li>
+            <li class="target_integral"><span>{{items.accidentNum.goalJifen}}</span></li>
+        </ul>
+    </div>
+
+</div>
+<div class="cont">
+    <div class="con1 star_cont">
+        <p style="font-size:14px;">
+            <span style="font-family:'微软雅黑 Bold', '微软雅黑';font-weight:700;font-size:14px;">缺勤天数</span>
+            <span style="font-family:'微软雅黑 Regular', '微软雅黑';font-weight:400;font-size:12px;">（天）</span>
+            <span style="font-family:'微软雅黑 Regular', '微软雅黑';font-weight:400;font-size:13px;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; </span>
+        </p>
+    </div>
+    <div class="cont1 star_cont_nt">
+        <ul>
+            <li class="yes_day"><span>昨日值</span></li>
+            <li class="monty"><span>月累计</span></li>
+            <li class="integral"><span>积分</span></li>
+            <li class="target_value"><span>目标值</span></li>
+            <li class="target_integral"><span>目标积分</span></li>
+        </ul>
+    </div>
+    <div class="cont2 star_cont_nt">
+        <ul>
+            <li class="yes_day"><span>{{items.absenceNum.yesterday}}</span></li>
+            <li class="monty"><span>{{items.absenceNum.month}}</span></li>
+            <li class="integral">
+                <span class="jf" ng-if="items.absenceNum.jifen >= 0">{{items.absenceNum.jifen}}</span>
+                <span style="color: red;" ng-if="items.absenceNum.jifen < 0">{{items.absenceNum.jifen}}</span>
+            </li>
+            <li class="target_value"><span>{{items.absenceNum.goalValue}}</span></li>
+            <li class="target_integral"><span>{{items.absenceNum.goalJifen}}</span></li>
+        </ul>
+    </div>
+
+</div>
+</div>
+</ion-content>
+<div class="tabs tabs-icon-top">
+    <a class="tab-item" href="index.html">
+        <i class="icon"><img src="evs_app_image/file_icon.png" width="23%" height="25px" /></i>
+        <p>文件学习</p>
+    </a>
+    <a class="tab-item taitem" href="integral.html">
+        <i class="icon"><img src="evs_app_image/star_icon.png" width="30%" height="25px" /></i>
+        <p>星级考核</p>
+    </a>
+    <a class="tab-item" href="warning.html">
+        <i class="icon"><img src="evs_app_image/clock.png" width="30%" height="25px" /></i>
+        <p>预警提醒</p>
+    </a>
+    <a class="tab-item" href="newProblem.html">
+        <i class="icon"><img src="evs_app_image/issue_icon.png" width="30%" height="25px" /></i>
+        <p>问题反馈</p>
+    </a>
+</div>
+</body>
+</html>
